@@ -12,39 +12,41 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // UPDATED FUNCTION: Dynamically calculates header height and offsets the scroll.
+  // FINAL FIX: Dynamically calculates ONLY the height of the fixed header components.
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     
     if (element) {
-      // 1. Select the two fixed parts of the navigation
-      // Using class selectors to find the 'Top Info Bar'
+      // 1. Select the fixed components: Top Bar and the main Nav Bar
       const topBar = document.querySelector('.bg-gray-900.text-white.py-2.5') as HTMLElement | null;
-      // Using tag selector for the 'Main Header'
-      const mainHeader = document.querySelector('header') as HTMLElement | null;
+      // *** CHANGE HERE: Target the NAV element (constant height) inside the header, not the whole header ***
+      const navBar = document.querySelector('header nav') as HTMLElement | null; 
 
-      let totalHeaderHeight = 0;
+      let totalFixedHeaderHeight = 0;
       
       // Calculate the total fixed height
       if (topBar) {
-          totalHeaderHeight += topBar.offsetHeight;
+          totalFixedHeaderHeight += topBar.offsetHeight;
       }
-      if (mainHeader) {
-          totalHeaderHeight += mainHeader.offsetHeight;
+      if (navBar) {
+          totalFixedHeaderHeight += navBar.offsetHeight;
       }
+      
+      // CRITICAL STEP: Close the menu immediately BEFORE scrolling to prevent height miscalculation
+      setIsMenuOpen(false);
 
-      // 2. Calculate the target position: element's distance from top - total header height
-      // offsetTop gives the distance of the element from the top of the document
-      const targetPosition = element.offsetTop - totalHeaderHeight;
+      // 2. Calculate the target position: element's distance from top - total fixed header height
+      const targetPosition = element.offsetTop - totalFixedHeaderHeight;
 
       // 3. Use window.scrollTo for precise, smooth positioning
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-      
-      // Close the mobile menu after clicking a link
-      setIsMenuOpen(false);
+      // This is wrapped in a setTimeout to allow the menu to visually close (due to setIsMenuOpen(false)) 
+      // before the scroll animation starts, ensuring the height is correct.
+      setTimeout(() => {
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+      }, 0); 
     }
   };
   
