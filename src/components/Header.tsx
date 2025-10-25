@@ -11,15 +11,43 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  // UPDATED FUNCTION: Dynamically calculates header height and offsets the scroll.
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
+    
     if (element) {
-      element.scrollIntoView({
+      // 1. Select the two fixed parts of the navigation
+      // Using class selectors to find the 'Top Info Bar'
+      const topBar = document.querySelector('.bg-gray-900.text-white.py-2.5') as HTMLElement | null;
+      // Using tag selector for the 'Main Header'
+      const mainHeader = document.querySelector('header') as HTMLElement | null;
+
+      let totalHeaderHeight = 0;
+      
+      // Calculate the total fixed height
+      if (topBar) {
+          totalHeaderHeight += topBar.offsetHeight;
+      }
+      if (mainHeader) {
+          totalHeaderHeight += mainHeader.offsetHeight;
+      }
+
+      // 2. Calculate the target position: element's distance from top - total header height
+      // offsetTop gives the distance of the element from the top of the document
+      const targetPosition = element.offsetTop - totalHeaderHeight;
+
+      // 3. Use window.scrollTo for precise, smooth positioning
+      window.scrollTo({
+        top: targetPosition,
         behavior: 'smooth'
       });
+      
+      // Close the mobile menu after clicking a link
       setIsMenuOpen(false);
     }
   };
+  
   return <>
       {/* Top Info Bar */}
       <div className="bg-gray-900 text-white py-2.5 text-sm">
