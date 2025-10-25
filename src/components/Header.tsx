@@ -12,14 +12,13 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // FINAL FIX: Dynamically calculates ONLY the height of the fixed header components.
+  // FINAL FIX: Encapsulating state update and scroll within setTimeout
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     
     if (element) {
       // 1. Select the fixed components: Top Bar and the main Nav Bar
       const topBar = document.querySelector('.bg-gray-900.text-white.py-2.5') as HTMLElement | null;
-      // *** CHANGE HERE: Target the NAV element (constant height) inside the header, not the whole header ***
       const navBar = document.querySelector('header nav') as HTMLElement | null; 
 
       let totalFixedHeaderHeight = 0;
@@ -32,20 +31,21 @@ export function Header() {
           totalFixedHeaderHeight += navBar.offsetHeight;
       }
       
-      // CRITICAL STEP: Close the menu immediately BEFORE scrolling to prevent height miscalculation
-      setIsMenuOpen(false);
-
-      // 2. Calculate the target position: element's distance from top - total fixed header height
-      const targetPosition = element.offsetTop - totalFixedHeaderHeight;
-
-      // 3. Use window.scrollTo for precise, smooth positioning
-      // This is wrapped in a setTimeout to allow the menu to visually close (due to setIsMenuOpen(false)) 
-      // before the scroll animation starts, ensuring the height is correct.
+      // 2. Schedule the state change AND the scroll action.
+      // The scroll needs to wait until the menu is visually closed (or about to be closed)
+      // and the header height calculation stabilizes.
       setTimeout(() => {
-          window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-          });
+        // Close the menu
+        setIsMenuOpen(false); 
+        
+        // Calculate the target position AFTER the state change is processed: element's distance from top - total fixed header height
+        const targetPosition = element.offsetTop - totalFixedHeaderHeight;
+
+        // Execute the scroll
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
       }, 0); 
     }
   };
