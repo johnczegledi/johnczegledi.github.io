@@ -12,41 +12,16 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // FINAL FIX: Encapsulating state update and scroll within setTimeout
+  // REVERTED SCROLL LOGIC
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
-    
     if (element) {
-      // 1. Select the fixed components: Top Bar and the main Nav Bar
-      const topBar = document.querySelector('.bg-gray-900.text-white.py-2.5') as HTMLElement | null;
-      const navBar = document.querySelector('header nav') as HTMLElement | null; 
-
-      let totalFixedHeaderHeight = 0;
-      
-      // Calculate the total fixed height
-      if (topBar) {
-          totalFixedHeaderHeight += topBar.offsetHeight;
-      }
-      if (navBar) {
-          totalFixedHeaderHeight += navBar.offsetHeight;
-      }
-      
-      // 2. Schedule the state change AND the scroll action.
-      // The scroll needs to wait until the menu is visually closed (or about to be closed)
-      // and the header height calculation stabilizes.
-      setTimeout(() => {
-        // Close the menu
-        setIsMenuOpen(false); 
-        
-        // Calculate the target position AFTER the state change is processed: element's distance from top - total fixed header height
-        const targetPosition = element.offsetTop - totalFixedHeaderHeight;
-
-        // Execute the scroll
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
-        });
-      }, 0); 
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
+      // Close menu AFTER initiating scroll.
+      // The CSS margin will handle the offset.
+      setIsMenuOpen(false); 
     }
   };
   
