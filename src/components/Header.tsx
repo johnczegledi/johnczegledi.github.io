@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-//import React, { useEffect, useState } from 'react';
 import { Menu, X, Mail, Linkedin, Clock } from 'lucide-react';
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // NEW STATE: Holds the ID of the section we need to scroll to
+  const [pendingScrollId, setPendingScrollId] = useState<string | null>(null);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -11,20 +14,32 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  // REVERTED SCROLL LOGIC
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
-      // Close menu AFTER initiating scroll.
-      // The CSS margin will handle the offset.
-      setIsMenuOpen(false); 
+
+  // NEW EFFECT: This runs ONLY after the component re-renders (i.e., after the menu closes)
+  useEffect(() => {
+    if (pendingScrollId) {
+      const element = document.getElementById(pendingScrollId);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth'
+        });
+        // Clear the state after scrolling to prevent re-running
+        setPendingScrollId(null); 
+      }
     }
+  }, [pendingScrollId]); // Dependency: Runs whenever pendingScrollId changes
+
+  // UPDATED SCROLL LOGIC
+  const scrollToSection = (id: string) => {
+    // 1. Set the ID to scroll to
+    setPendingScrollId(id);
+    
+    // 2. Close the menu immediately. This triggers the re-render.
+    setIsMenuOpen(false); 
+    
+    // The useEffect hook will handle the scroll *after* the menu closes.
   };
-  
+
   return <>
       {/* Top Info Bar */}
       <div className="bg-gray-900 text-white py-2.5 text-sm">
