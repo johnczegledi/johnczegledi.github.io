@@ -38,7 +38,7 @@ export function Services() {
     title: 'BI Reporting',
     description: 'Develop interactive dashboards and reports for data-driven decision making.'
   }];
-  return <section id="services" className="py-20 bg-gray-50 scroll-mt-16">
+  return <section id="services" className="py-20 bg-gray-50 scroll-mt-1">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
