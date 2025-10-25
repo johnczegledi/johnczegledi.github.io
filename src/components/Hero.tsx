@@ -47,7 +47,7 @@ export function Hero() {
   {/* Added px-8 py-8 (padding) to shrink the effective size of the image container */}
   <div className="absolute inset-0 flex items-center justify-center px-16 py-16">
       <img 
-          src="src/images/composite.png"  
+          src="/images/composite.png"  
           alt="Professional" 
           className="w-fit-content h-fit-content  object-cover" 
       />
