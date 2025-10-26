@@ -217,7 +217,9 @@ export function About() {
             <div className="relative bg-teal-500 text-white p-8 md:p-12 max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300" onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
               {/* Close Button */}
               <button onClick={() => setExpandedCard(null)} className="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors" aria-label="Close">
-                <X size={24} />
+                <div className="p-4"> 
+                    <X size={24} />
+                </div>
               </button>
               {/* Folded Corner Effect */}
               {/* <div className="absolute top-0 right-0 w-24 h-24 bg-teal-600 transform rotate-45 translate-x-12 -translate-y-12"></div> */}
