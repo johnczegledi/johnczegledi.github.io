@@ -1,5 +1,4 @@
 //import React from 'react';
-import { Linkedin, Github, Mail, Twitter } from 'lucide-react';
 export function Footer() {
   return <footer className="bg-gray-900 text-white py-16">
       <div className="container mx-auto px-4">
