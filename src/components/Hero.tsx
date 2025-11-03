@@ -49,7 +49,7 @@ export function Hero() {
       <img 
           src="/images/composite.png"  
           alt="Professional" 
-          className="w-fit-content h-fit-content  object-cover" 
+          className="w-full h-full object-contain" 
       />
   </div>
   {/* Geometric Overlay */}
