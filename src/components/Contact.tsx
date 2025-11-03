@@ -79,7 +79,7 @@ export function Contact() {
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-1">Location</h4>
                   <p className="text-gray-600">
-                    Available for remote projects in the Asia Pacific Region
+                    Available for remote and onsite projects in the Asia Pacific Region
                   </p>
                 </div>
               </div>
