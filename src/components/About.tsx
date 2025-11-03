@@ -159,7 +159,7 @@ export function About() {
                 Why Choose Me
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                I am a highly skilled IT data freelancer specializing in
+                I am a highly skilled IT data freelancer specialising in
                 delivering comprehensive data solutions across banking and
                 finance, telecommunications, and utilities sectors.
               </p>
