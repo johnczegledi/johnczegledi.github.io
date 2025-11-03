@@ -43,7 +43,7 @@ export function Hero() {
           </div>
         </div>
         {/* Right Side - Image */}
-         <div className="relative bg-gray-100 block">
+         <div className="relative bg-gray-100">
   {/* Added px-8 py-8 (padding) to shrink the effective size of the image container */}
   <div className="absolute inset-0 flex items-center justify-center px-16 py-16">
       <img 
