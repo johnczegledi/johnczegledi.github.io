@@ -21,7 +21,7 @@ export function Hero() {
                 IT Data Specialist
               </p>
               <h1 className="text-4xl md:text-5xl lg:text-5xl font-bold mb-6 leading-tight">
-                I'm a Data Designer, Developer, Test Lead & Advisor.
+                I'm a Data Architect, Developer, Test Lead & Advisor.
               </h1>
               <p className="text-gray-300 text-lg mb-8 leading-relaxed">
                 Transforming business challenges into data-driven solutions
